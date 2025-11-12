@@ -1,24 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Letreiro Motivacional</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letreiro Motivacional</title>
+
+    <style>
+        /* ===== Configuração geral ===== */
+        body {
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center;     /* Centraliza verticalmente */
+            height: 100vh;           /* Altura da tela */
+            margin: 0;
+        }
+
+        /* ===== Área do letreiro ===== */
+        .letreiro-container {
+            width: 600px;       /* Largura da tela do letreiro */
+            height: 100px;      /* Altura da tela do letreiro */
+            border: 3px solid #008cba;
+            overflow: hidden;   /* Oculta o texto fora da área */
+            position: relative;
+            background-color: #e6f7ff;
+            padding: 20px;      /* Espaço livre em torno do letreiro */
+        }
+
+        /* ===== Texto do letreiro ===== */
+        .texto {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 24px;
+            font-weight: bold;
+            color: #004466;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="tela">
-    <div class="letreiro" id="letreiro">
-      🌟 "Acredite em si mesmo e o universo se abrirá em oportunidades!" 🌟
+    <div class="letreiro-container">
+        <div class="texto" id="texto">
+            🌟 Acredite em si mesmo e tudo será possível! 🌟
+        </div>
     </div>
-  </div>
 
-  <div class="controle">
-    <label for="velocidade">Velocidade do letreiro:</label>
-    <input type="range" id="velocidade" min="3" max="20" value="10" />
-  </div>
+    <script>
+        // ===== Controle de movimento =====
+        const texto = document.getElementById("texto");
+        const container = document.querySelector(".letreiro-container");
 
-  <script src="script.js"></script>
+        let posicao = 0;            // Posição inicial
+        let direcao = 1;            // 1 = direita, -1 = esquerda
+        const velocidade = 2;       // Controle de velocidade (px por frame)
+
+        function animarLetreiro() {
+            const larguraTexto = texto.offsetWidth;
+            const larguraContainer = container.offsetWidth;
+
+            posicao += direcao * velocidade;
+
+            // Inverte a direção quando o texto chega no limite direito ou esquerdo
+            if (posicao + larguraTexto >= larguraContainer || posicao <= 0) {
+                direcao *= -1;
+            }
+
+            texto.style.left = posicao + "px";
+            requestAnimationFrame(animarLetreiro);
+        }
+
+        animarLetreiro();
+    </script>
+
 </body>
 </html>
